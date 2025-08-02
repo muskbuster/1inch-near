@@ -1,12 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.OneInchNearSDK = exports.verifySecret = exports.hashSecret = exports.generateSecret = exports.yoctoToNear = exports.nearToYocto = exports.parseAmount = exports.formatAmount = exports.OneInchIntegration = exports.CrossChainBridge = exports.SolverRegistry = exports.CrossChainEscrow = exports.LimitOrderProtocol = void 0;
+exports.OneInchNearSDK = exports.verifySecret = exports.hashSecret = exports.generateSecret = exports.yoctoToNear = exports.nearToYocto = exports.parseAmount = exports.formatAmount = exports.EnhancedResolver = exports.OneInchIntegration = exports.CrossChainBridge = exports.SolverRegistry = exports.CrossChainEscrow = exports.LimitOrderProtocol = void 0;
 // Import main SDK classes
 const limit_order_protocol_1 = require("./limit-order-protocol");
 const cross_chain_escrow_1 = require("./cross-chain-escrow");
 const solver_registry_1 = require("./solver-registry");
 const cross_chain_bridge_1 = require("./cross-chain-bridge");
 const _1inch_integration_1 = require("./integration/1inch-integration");
+const enhanced_resolver_1 = require("./enhanced-resolver");
 // Export main SDK classes
 var limit_order_protocol_2 = require("./limit-order-protocol");
 Object.defineProperty(exports, "LimitOrderProtocol", { enumerable: true, get: function () { return limit_order_protocol_2.LimitOrderProtocol; } });
@@ -18,6 +19,8 @@ var cross_chain_bridge_2 = require("./cross-chain-bridge");
 Object.defineProperty(exports, "CrossChainBridge", { enumerable: true, get: function () { return cross_chain_bridge_2.CrossChainBridge; } });
 var _1inch_integration_2 = require("./integration/1inch-integration");
 Object.defineProperty(exports, "OneInchIntegration", { enumerable: true, get: function () { return _1inch_integration_2.OneInchIntegration; } });
+var enhanced_resolver_2 = require("./enhanced-resolver");
+Object.defineProperty(exports, "EnhancedResolver", { enumerable: true, get: function () { return enhanced_resolver_2.EnhancedResolver; } });
 // Export utilities
 var amounts_1 = require("./utils/amounts");
 Object.defineProperty(exports, "formatAmount", { enumerable: true, get: function () { return amounts_1.formatAmount; } });
@@ -35,6 +38,7 @@ class OneInchNearSDK {
         this.crossChainEscrow = new cross_chain_escrow_1.CrossChainEscrow(config.crossChainEscrowContractId);
         this.solverRegistry = new solver_registry_1.SolverRegistry(config.solverRegistryContractId);
         this.crossChainBridge = new cross_chain_bridge_1.CrossChainBridge(config.crossChainBridgeContractId);
+        this.enhancedResolver = new enhanced_resolver_1.EnhancedResolver(config.enhancedResolverContractId);
     }
     /**
      * Initialize all contracts
@@ -45,6 +49,7 @@ class OneInchNearSDK {
             this.crossChainEscrow.initialize(network),
             this.solverRegistry.initialize(network),
             this.crossChainBridge.initialize(network),
+            this.enhancedResolver.initialize(network),
         ]);
     }
     /**
@@ -54,7 +59,8 @@ class OneInchNearSDK {
         return (this.limitOrder.isSignedIn() &&
             this.crossChainEscrow.isSignedIn() &&
             this.solverRegistry.isSignedIn() &&
-            this.crossChainBridge.isSignedIn());
+            this.crossChainBridge.isSignedIn() &&
+            this.enhancedResolver.isSignedIn());
     }
     /**
      * Sign out from all contracts
@@ -64,6 +70,7 @@ class OneInchNearSDK {
         this.crossChainEscrow.signOut();
         this.solverRegistry.signOut();
         this.crossChainBridge.signOut();
+        this.enhancedResolver.signOut();
     }
     /**
      * Create 1inch integration instance

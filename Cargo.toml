@@ -8,6 +8,7 @@ members = [
     "contracts/limit-order-protocol",
     "contracts/cross-chain-escrow",
     "contracts/cross-chain-bridge",
+    "contracts/enhanced-resolver",
 ]
 
 [profile.release]
