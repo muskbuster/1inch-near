@@ -529,6 +529,21 @@ dependencies = [
 ]
 
 [[package]]
+name = "cross-chain-escrow"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "hex",
+ "near-contract-standards",
+ "near-gas",
+ "near-sdk",
+ "near-workspaces",
+ "serde_json",
+ "sha2",
+ "tokio",
+]
+
+[[package]]
 name = "crossbeam-deque"
 version = "0.8.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1578,6 +1593,23 @@ dependencies = [
  "bitflags 2.9.1",
  "libc",
  "redox_syscall",
+]
+
+[[package]]
+name = "limit-order-protocol"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "borsh",
+ "hex",
+ "near-contract-standards",
+ "near-gas",
+ "near-sdk",
+ "near-workspaces",
+ "serde",
+ "serde_json",
+ "sha2",
+ "tokio",
 ]
 
 [[package]]

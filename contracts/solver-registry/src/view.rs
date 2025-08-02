@@ -14,9 +14,9 @@ impl Contract {
     pub fn get_pool(&self, pool_id: u32) -> Option<PoolInfo> {
         self.pools.get(pool_id).map(|p| PoolInfo {
             token_ids: p.token_ids.clone(),
-            amounts: p.amounts.iter().map(|a| (*a).into()).collect(),
+            amounts: p.amounts.to_vec(),
             fee: p.fee,
-            shares_total_supply: p.shares_total_supply.into(),
+            shares_total_supply: p.shares_total_supply,
         })
     }
 

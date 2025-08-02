@@ -9,8 +9,8 @@ use near_sdk::{
 };
 
 use crate::events::*;
-use crate::pool::*;
-use crate::types::*;
+use crate::pool::Pool as PoolStruct;
+use crate::types::{PoolInfo, Prefix, SolverType, Worker};
 
 mod admin;
 mod collateral;
@@ -24,22 +24,17 @@ mod view;
 
 const GAS_REGISTER_WORKER_CALLBACK: Gas = Gas::from_tgas(10);
 
-#[near(serializers = [json, borsh])]
-#[derive(Clone)]
-pub struct Worker {
-    pool_id: u32,
-    checksum: String,
-    codehash: String,
-}
-
 #[near(contract_state)]
 #[derive(PanicOnDefault)]
 pub struct Contract {
     owner_id: AccountId,
     intents_contract_id: AccountId,
-    pools: Vector<Pool>,
+    limit_order_protocol_id: AccountId,
+    cross_chain_escrow_id: AccountId,
+    pools: Vector<PoolStruct>,
     approved_codehashes: IterableSet<String>,
     worker_by_account_id: IterableMap<AccountId, Worker>,
+    solver_permissions: IterableMap<AccountId, Vec<SolverType>>,
 }
 
 #[allow(dead_code)]
@@ -52,13 +47,21 @@ trait IntentsVaultContract {
 impl Contract {
     #[init]
     #[private]
-    pub fn new(owner_id: AccountId, intents_contract_id: AccountId) -> Self {
+    pub fn new(
+        owner_id: AccountId,
+        intents_contract_id: AccountId,
+        limit_order_protocol_id: AccountId,
+        cross_chain_escrow_id: AccountId,
+    ) -> Self {
         Self {
             owner_id,
             intents_contract_id,
+            limit_order_protocol_id,
+            cross_chain_escrow_id,
             pools: Vector::new(Prefix::Pools),
             approved_codehashes: IterableSet::new(Prefix::ApprovedCodeHashes),
             worker_by_account_id: IterableMap::new(Prefix::WorkerByAccountId),
+            solver_permissions: IterableMap::new(Prefix::SolverPermissions),
         }
     }
 
@@ -70,6 +73,7 @@ impl Contract {
         collateral: String,
         checksum: String,
         tcb_info: String,
+        solver_type: SolverType,
     ) -> Promise {
         assert_one_yocto();
         require!(self.has_pool(pool_id), "Pool not found");
@@ -112,7 +116,14 @@ impl Contract {
             .then(
                 Self::ext(env::current_account_id())
                     .with_static_gas(GAS_REGISTER_WORKER_CALLBACK)
-                    .on_worker_key_added(worker_id, pool_id, public_key, codehash, checksum),
+                    .on_worker_key_added(
+                        worker_id,
+                        pool_id,
+                        public_key,
+                        codehash,
+                        checksum,
+                        solver_type,
+                    ),
             )
     }
 
@@ -124,6 +135,7 @@ impl Contract {
         public_key: PublicKey,
         codehash: String,
         checksum: String,
+        solver_type: SolverType,
         #[callback_result] call_result: Result<(), PromiseError>,
     ) {
         if call_result.is_ok() {
@@ -133,8 +145,12 @@ impl Contract {
                     pool_id,
                     checksum: checksum.clone(),
                     codehash: codehash.clone(),
+                    solver_type: solver_type.clone(),
                 },
             );
+
+            // Grant solver permissions based on type
+            self.grant_solver_permissions(&worker_id, &solver_type);
 
             Event::WorkerRegistered {
                 worker_id: &worker_id,
@@ -142,9 +158,49 @@ impl Contract {
                 public_key: &public_key,
                 codehash: &codehash,
                 checksum: &checksum,
+                solver_type: &solver_type,
             }
             .emit();
         }
+    }
+
+    /// Grant solver permissions to a worker
+    pub fn grant_solver_permissions(&mut self, worker_id: &AccountId, solver_type: &SolverType) {
+        let permissions = self.solver_permissions.get(worker_id).unwrap_or(&EMPTY_VEC);
+        let mut new_permissions = permissions.clone();
+
+        if !new_permissions.contains(solver_type) {
+            new_permissions.push(solver_type.clone());
+            self.solver_permissions
+                .insert(worker_id.clone(), new_permissions);
+        }
+    }
+
+    /// Check if a worker has permission for a specific solver type
+    pub fn has_solver_permission(&self, worker_id: &AccountId, solver_type: &SolverType) -> bool {
+        if let Some(permissions) = self.solver_permissions.get(worker_id) {
+            permissions.contains(solver_type)
+        } else {
+            false
+        }
+    }
+
+    /// Get solver permissions for a worker
+    pub fn get_solver_permissions(&self, worker_id: AccountId) -> Vec<SolverType> {
+        self.solver_permissions
+            .get(&worker_id)
+            .unwrap_or(&EMPTY_VEC)
+            .clone()
+    }
+
+    /// Get limit order protocol contract ID
+    pub fn get_limit_order_protocol_id(&self) -> AccountId {
+        self.limit_order_protocol_id.clone()
+    }
+
+    /// Get cross-chain escrow contract ID
+    pub fn get_cross_chain_escrow_id(&self) -> AccountId {
+        self.cross_chain_escrow_id.clone()
     }
 }
 
@@ -161,3 +217,5 @@ impl Contract {
     //     self.assert_approved_codehash(&worker.codehash);
     // }
 }
+
+static EMPTY_VEC: Vec<SolverType> = Vec::new();

@@ -1,0 +1,44 @@
+{
+  "name": "@tee-solver/1inch-sdk",
+  "version": "0.1.0",
+  "description": "TypeScript SDK for 1inch-style protocol on NEAR with TEE solvers",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest",
+    "lint": "eslint src/**/*.ts",
+    "format": "prettier --write src/**/*.ts"
+  },
+  "keywords": [
+    "near",
+    "1inch",
+    "defi",
+    "limit-orders",
+    "cross-chain",
+    "tee",
+    "solver"
+  ],
+  "author": "TEE Solver Team",
+  "license": "MIT",
+  "dependencies": {
+    "near-api-js": "^2.1.0",
+    "bn.js": "^5.2.1",
+    "crypto-js": "^4.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/crypto-js": "^4.2.0",
+    "@types/jest": "^29.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.0.0",
+    "jest": "^29.0.0",
+    "prettier": "^3.0.0",
+    "ts-jest": "^29.0.0",
+    "typescript": "^5.0.0"
+  },
+  "files": [
+    "dist/**/*"
+  ]
+} 

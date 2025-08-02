@@ -2,6 +2,8 @@ use near_sdk::serde::Serialize;
 use near_sdk::serde_json::json;
 use near_sdk::{log, AccountId, PublicKey};
 
+use crate::types::SolverType; // Fixed import path
+
 pub const EVENT_STANDARD: &str = "solver-registry";
 pub const EVENT_STANDARD_VERSION: &str = "1.0.0";
 
@@ -20,6 +22,7 @@ pub enum Event<'a> {
         public_key: &'a PublicKey,
         codehash: &'a String,
         checksum: &'a String,
+        solver_type: &'a SolverType,
     },
     CreateLiquidityPool {
         pool_id: &'a u32,

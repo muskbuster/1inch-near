@@ -5,6 +5,8 @@ members = [
     "contracts/solver-registry",
     "contracts/mock-intents",
     "contracts/mock-ft",
+    "contracts/limit-order-protocol",
+    "contracts/cross-chain-escrow",
 ]
 
 [profile.release]

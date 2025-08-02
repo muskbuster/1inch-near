@@ -5,6 +5,7 @@ use near_sdk::{near, require, AccountId, Gas, NearToken, PromiseError, PromiseOr
 
 use crate::events::Event;
 use crate::ext::ext_ft;
+use crate::types::Balance;
 use crate::*;
 
 const CREATE_POOL_STORAGE_DEPOSIT: NearToken =

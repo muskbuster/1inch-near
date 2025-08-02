@@ -1,6 +1,6 @@
 RUSTFLAGS = "-C link-arg=-s"
 
-all: lint solver-registry intents-vault
+all: lint solver-registry intents-vault limit-order-protocol cross-chain-escrow
 
 lint:
 	@cargo fmt --all
@@ -16,6 +16,16 @@ intents-vault:
 	@mkdir -p contracts/intents-vault/res
 	@cp target/near/intents_vault/intents_vault.wasm ./contracts/intents-vault/res/intents_vault.wasm
 
+limit-order-protocol:
+	$(call compile-release,limit-order-protocol)
+	@mkdir -p contracts/limit-order-protocol/res
+	@cp target/near/limit_order_protocol/limit_order_protocol.wasm ./contracts/limit-order-protocol/res/limit_order_protocol.wasm
+
+cross-chain-escrow:
+	$(call compile-release,cross-chain-escrow)
+	@mkdir -p contracts/cross-chain-escrow/res
+	@cp target/near/cross_chain_escrow/cross_chain_escrow.wasm ./contracts/cross-chain-escrow/res/cross_chain_escrow.wasm
+
 mock-intents:
 	$(call compile-release,mock-intents)
 	@mkdir -p contracts/mock-intents/res
@@ -26,8 +36,14 @@ mock-ft:
 	@mkdir -p contracts/mock-ft/res
 	@cp target/near/mock_ft/mock_ft.wasm ./contracts/mock-ft/res/mock_ft.wasm
 
-test: solver-registry intents-vault mock-intents mock-ft
+test: solver-registry intents-vault limit-order-protocol cross-chain-escrow mock-intents mock-ft
 	cargo test -- --nocapture
+
+sdk-build:
+	@cd sdk && npm install && npm run build
+
+sdk-test:
+	@cd sdk && npm test
 
 define compile-release
 	@rustup target add wasm32-unknown-unknown
