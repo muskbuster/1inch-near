@@ -1,7 +1,14 @@
-import { Escrow, CreateEscrowParams, DepositEscrowParams, WithdrawEscrowParams } from './types/cross-chain';
+import { Escrow, CreateEscrowParams, DepositParams, WithdrawParams } from './types/cross-chain';
 export declare class CrossChainEscrow {
     private contractId;
+    private contract;
+    private walletConnection;
+    private accountId;
     constructor(contractId: string);
+    /**
+     * Initialize connection to NEAR
+     */
+    initialize(network?: 'testnet' | 'mainnet'): Promise<void>;
     /**
      * Create a new cross-chain escrow
      */
@@ -9,13 +16,13 @@ export declare class CrossChainEscrow {
     /**
      * Deposit funds into escrow
      */
-    depositEscrow(params: DepositEscrowParams): Promise<void>;
+    depositIntoEscrow(params: DepositParams): Promise<void>;
     /**
-     * Withdraw funds from escrow using secret
+     * Withdraw from escrow
      */
-    withdrawEscrow(params: WithdrawEscrowParams): Promise<void>;
+    withdrawFromEscrow(params: WithdrawParams): Promise<void>;
     /**
-     * Cancel escrow (after timelock period)
+     * Cancel escrow
      */
     cancelEscrow(escrowId: string): Promise<void>;
     /**
@@ -23,12 +30,20 @@ export declare class CrossChainEscrow {
      */
     getEscrow(escrowId: string): Promise<Escrow | null>;
     /**
-     * Get escrows by maker
+     * Get current account ID
      */
-    getEscrowsByMaker(maker: string): Promise<Escrow[]>;
+    getAccountId(): string | null;
     /**
-     * Get escrows by taker
+     * Check if user is signed in
      */
-    getEscrowsByTaker(taker: string): Promise<Escrow[]>;
+    isSignedIn(): boolean;
+    /**
+     * Sign in to NEAR wallet
+     */
+    requestSignIn(): void;
+    /**
+     * Sign out from NEAR wallet
+     */
+    signOut(): void;
 }
 //# sourceMappingURL=cross-chain-escrow.d.ts.map

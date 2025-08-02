@@ -1,7 +1,14 @@
 import { Worker, SolverType, Pool } from './types/solver-registry';
 export declare class SolverRegistry {
     private contractId;
+    private contract;
+    private walletConnection;
+    private accountId;
     constructor(contractId: string);
+    /**
+     * Initialize connection to NEAR
+     */
+    initialize(network?: 'testnet' | 'mainnet'): Promise<void>;
     /**
      * Register a worker with TEE verification
      */
@@ -34,5 +41,21 @@ export declare class SolverRegistry {
      * Get cross-chain escrow contract ID
      */
     getCrossChainEscrowId(): Promise<string>;
+    /**
+     * Get current account ID
+     */
+    getAccountId(): string | null;
+    /**
+     * Check if user is signed in
+     */
+    isSignedIn(): boolean;
+    /**
+     * Sign in to NEAR wallet
+     */
+    requestSignIn(): void;
+    /**
+     * Sign out from NEAR wallet
+     */
+    signOut(): void;
 }
 //# sourceMappingURL=solver-registry.d.ts.map

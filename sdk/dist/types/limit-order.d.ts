@@ -1,42 +1,41 @@
 export type AccountId = string;
 export interface Order {
-    maker_asset: AccountId;
-    taker_asset: AccountId;
-    making_amount: string;
-    taking_amount: string;
+    id: string;
+    makerAsset: AccountId;
+    takerAsset: AccountId;
+    makingAmount: string;
+    takingAmount: string;
     maker: AccountId;
-    receiver: AccountId;
-    salt: string;
-    expiration?: number;
-    allowed_sender?: AccountId;
-    filled_amount: string;
-    cancelled: boolean;
+    expiration: number;
+    status: OrderStatus;
+    createdAt: number;
 }
 export interface OrderInfo {
-    order_id: string;
-    order: Order;
+    id: string;
+    makerAsset: AccountId;
+    takerAsset: AccountId;
+    makingAmount: string;
+    takingAmount: string;
+    maker: AccountId;
+    expiration: number;
     status: OrderStatus;
+    createdAt: number;
 }
 export declare enum OrderStatus {
-    Active = "Active",
+    Open = "Open",
     Filled = "Filled",
     Cancelled = "Cancelled",
     Expired = "Expired"
 }
 export interface CreateOrderParams {
-    maker_asset: AccountId;
-    taker_asset: AccountId;
-    making_amount: string;
-    taking_amount: string;
-    maker: AccountId;
-    receiver?: AccountId;
-    salt?: string;
+    makerAsset: AccountId;
+    takerAsset: AccountId;
+    makingAmount: string;
+    takingAmount: string;
     expiration?: number;
-    allowed_sender?: AccountId;
 }
 export interface FillOrderParams {
-    order_id: string;
-    taking_amount: string;
-    receiver?: AccountId;
+    orderId: string;
+    takerAmount: string;
 }
 //# sourceMappingURL=limit-order.d.ts.map

@@ -1,65 +1,57 @@
 export type AccountId = string;
 export interface Escrow {
-    maker_asset: AccountId;
-    taker_asset: AccountId;
-    making_amount: string;
-    taking_amount: string;
+    id: string;
     maker: AccountId;
     taker: AccountId;
-    source_chain: string;
-    destination_chain: string;
+    makerAsset: AccountId;
+    takerAsset: AccountId;
+    makingAmount: string;
+    takingAmount: string;
+    secretHash: string;
     timelocks: Timelocks;
-    safety_deposit: string;
-    secret_hash?: string;
-    secret?: string;
     status: EscrowStatus;
-    created_at: number;
+    createdAt: number;
+    fundedAt?: number;
 }
 export interface EscrowInfo {
-    escrow_id: string;
-    escrow: Escrow;
-    status: EscrowStatus;
-}
-export declare enum EscrowStatus {
-    Created = "Created",
-    Funded = "Funded",
-    Withdrawn = "Withdrawn",
-    Cancelled = "Cancelled"
-}
-export interface Timelocks {
-    finality: number;
-    withdrawal: number;
-    public_withdrawal: number;
-    cancellation: number;
-    public_cancellation: number;
-}
-export declare enum TimelockStage {
-    Finality = "Finality",
-    WaitingForWithdrawal = "WaitingForWithdrawal",
-    PrivateWithdrawal = "PrivateWithdrawal",
-    PublicWithdrawal = "PublicWithdrawal",
-    PrivateCancellation = "PrivateCancellation",
-    PublicCancellation = "PublicCancellation"
-}
-export interface CreateEscrowParams {
-    maker_asset: AccountId;
-    taker_asset: AccountId;
-    making_amount: string;
-    taking_amount: string;
+    id: string;
     maker: AccountId;
     taker: AccountId;
-    source_chain: string;
-    destination_chain: string;
+    makerAsset: AccountId;
+    takerAsset: AccountId;
+    makingAmount: string;
+    takingAmount: string;
+    secretHash: string;
     timelocks: Timelocks;
-    safety_deposit: string;
+    status: EscrowStatus;
+    createdAt: number;
+    fundedAt?: number;
 }
-export interface DepositEscrowParams {
-    escrow_id: string;
-    secret_hash: string;
+export interface Timelocks {
+    finalityPeriod: number;
+    withdrawalPeriod: number;
+    cancellationPeriod: number;
 }
-export interface WithdrawEscrowParams {
-    escrow_id: string;
+export declare enum EscrowStatus {
+    Pending = "Pending",
+    Funded = "Funded",
+    Completed = "Completed",
+    Cancelled = "Cancelled",
+    Expired = "Expired"
+}
+export interface CreateEscrowParams {
+    makerAsset: AccountId;
+    takerAsset: AccountId;
+    makingAmount: string;
+    takingAmount: string;
+    timelocks: Timelocks;
+}
+export interface DepositParams {
+    escrowId: string;
+    amount: string;
+}
+export interface WithdrawParams {
+    escrowId: string;
     secret: string;
-    receiver?: AccountId;
 }
 //# sourceMappingURL=cross-chain.d.ts.map

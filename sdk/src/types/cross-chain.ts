@@ -1,72 +1,63 @@
 export type AccountId = string;
 
 export interface Escrow {
-  maker_asset: AccountId;
-  taker_asset: AccountId;
-  making_amount: string;
-  taking_amount: string;
+  id: string;
   maker: AccountId;
   taker: AccountId;
-  source_chain: string;
-  destination_chain: string;
+  makerAsset: AccountId;
+  takerAsset: AccountId;
+  makingAmount: string;
+  takingAmount: string;
+  secretHash: string;
   timelocks: Timelocks;
-  safety_deposit: string;
-  secret_hash?: string;
-  secret?: string;
   status: EscrowStatus;
-  created_at: number;
+  createdAt: number;
+  fundedAt?: number;
 }
 
 export interface EscrowInfo {
-  escrow_id: string;
-  escrow: Escrow;
+  id: string;
+  maker: AccountId;
+  taker: AccountId;
+  makerAsset: AccountId;
+  takerAsset: AccountId;
+  makingAmount: string;
+  takingAmount: string;
+  secretHash: string;
+  timelocks: Timelocks;
   status: EscrowStatus;
-}
-
-export enum EscrowStatus {
-  Created = 'Created',
-  Funded = 'Funded',
-  Withdrawn = 'Withdrawn',
-  Cancelled = 'Cancelled',
+  createdAt: number;
+  fundedAt?: number;
 }
 
 export interface Timelocks {
-  finality: number;
-  withdrawal: number;
-  public_withdrawal: number;
-  cancellation: number;
-  public_cancellation: number;
+  finalityPeriod: number;
+  withdrawalPeriod: number;
+  cancellationPeriod: number;
 }
 
-export enum TimelockStage {
-  Finality = 'Finality',
-  WaitingForWithdrawal = 'WaitingForWithdrawal',
-  PrivateWithdrawal = 'PrivateWithdrawal',
-  PublicWithdrawal = 'PublicWithdrawal',
-  PrivateCancellation = 'PrivateCancellation',
-  PublicCancellation = 'PublicCancellation',
+export enum EscrowStatus {
+  Pending = 'Pending',
+  Funded = 'Funded',
+  Completed = 'Completed',
+  Cancelled = 'Cancelled',
+  Expired = 'Expired',
 }
 
 export interface CreateEscrowParams {
-  maker_asset: AccountId;
-  taker_asset: AccountId;
-  making_amount: string;
-  taking_amount: string;
-  maker: AccountId;
-  taker: AccountId;
-  source_chain: string;
-  destination_chain: string;
+  makerAsset: AccountId;
+  takerAsset: AccountId;
+  makingAmount: string;
+  takingAmount: string;
   timelocks: Timelocks;
-  safety_deposit: string;
 }
 
-export interface DepositEscrowParams {
-  escrow_id: string;
-  secret_hash: string;
+export interface DepositParams {
+  escrowId: string;
+  amount: string;
 }
 
-export interface WithdrawEscrowParams {
-  escrow_id: string;
+export interface WithdrawParams {
+  escrowId: string;
   secret: string;
-  receiver?: AccountId;
 } 

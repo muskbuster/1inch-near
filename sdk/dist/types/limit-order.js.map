@@ -1,1 +1,1 @@
-{"version":3,"file":"limit-order.js","sourceRoot":"","sources":["../../src/types/limit-order.ts"],"names":[],"mappings":";;;AAsBA,IAAY,WAKX;AALD,WAAY,WAAW;IACrB,gCAAiB,CAAA;IACjB,gCAAiB,CAAA;IACjB,sCAAuB,CAAA;IACvB,kCAAmB,CAAA;AACrB,CAAC,EALW,WAAW,2BAAX,WAAW,QAKtB"}
+{"version":3,"file":"limit-order.js","sourceRoot":"","sources":["../../src/types/limit-order.ts"],"names":[],"mappings":";;;AA0BA,IAAY,WAKX;AALD,WAAY,WAAW;IACrB,4BAAa,CAAA;IACb,gCAAiB,CAAA;IACjB,sCAAuB,CAAA;IACvB,kCAAmB,CAAA;AACrB,CAAC,EALW,WAAW,2BAAX,WAAW,QAKtB"}
