@@ -325,3 +325,25 @@ The project is inspired by the incredible design of [Shade Agent](https://github
 ## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
+
+# 1inch Protocol Implementation on NEAR
+
+A complete implementation of the 1inch protocol on NEAR blockchain, featuring cross-chain swaps, limit orders, and enhanced resolver functionality using NEAR Intents technology.
+
+## 🚀 **Deployed Contracts (NEAR Testnet)**
+
+All contracts have been successfully deployed to NEAR testnet:
+
+| Contract | Address | Transaction ID |
+|----------|---------|----------------|
+| **Limit Order Protocol** | `limit-order-protocol.testnet` | [ZqhQv8FdtBXMm88CPvdvE9JwWXWSBrXQw1PtoRqUn3G](https://testnet.nearblocks.io/txns/ZqhQv8FdtBXMm88CPvdvE9JwWXWSBrXQw1PtoRqUn3G) |
+| **Cross-Chain Bridge** | `cross-chain-bridge.testnet` | [9QZALfnY3YbWPkqXepdwNq6UfW3gmHiLfjougYUUAZ3K](https://testnet.nearblocks.io/txns/9QZALfnY3YbWPkqXepdwNq6UfW3gmHiLfjougYUUAZ3K) |
+| **Enhanced Resolver** | `enhanced-resolver.testnet` | [F9f8y175aaqb1QG7J2HTa9yRt878HPJhUBYYL5CTzKyv](https://testnet.nearblocks.io/txns/F9f8y175aaqb1QG7J2HTa9yRt878HPJhUBYYL5CTzKyv) |
+
+### 📋 **Contract Status**
+- ✅ **All contracts deployed successfully**
+- ✅ **WASM files generated and verified**
+- ⚠️ **Initialization pending** (due to NEAR testnet RPC compatibility issue)
+- ✅ **SDK ready for integration**
+
+## 🏗️ **Architecture Overview**
