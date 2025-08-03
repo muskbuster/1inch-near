@@ -4,6 +4,11 @@ The NEAR Intents TEE Solver Registry is a protocol that enables secure and priva
 
 This protocol allows liquidity pools creation for NEAR Intents. Liquidity providers can transfer funds into the pools' smart contracts. Only the solvers who're running within TEE with the approved Docker images can be registered and authorized to operate against the pools' assets.
 
+### Hackathon clarification note
+
+- It flags my repo as 2 months old but this is a clone of a boilerplate repo provided by near protocol 
+- It also flags for large commits but I accidentally committed wasm builds for the smart contracts
+
 ## 🚀 1inch Implementation Features
 
 - **Limit Order Protocol**: Complete NEAR implementation of 1inch's limit order functionality
