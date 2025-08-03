@@ -77,6 +77,7 @@ impl CrossChainBridge {
             sender: env::predecessor_account_id(),
             recipient,
             status: SwapStatus::Pending,
+            secret_hash: None, // For NEAR to EVM swaps, no secret hash needed initially
             timelock_duration,
             created_at: env::block_timestamp(),
             completed_at: None,
@@ -124,7 +125,7 @@ impl CrossChainBridge {
         // Verify secret hash matches
         let expected_hash = self.generate_secret_hash(&secret);
         assert!(
-            swap.secret_hash == expected_hash,
+            swap.secret_hash.as_ref() == Some(&expected_hash),
             "Invalid secret"
         );
 
@@ -142,7 +143,7 @@ impl CrossChainBridge {
             .with_static_gas(GAS_FOR_FT_TRANSFER)
             .ft_transfer(
                 swap.recipient.parse().unwrap(),
-                swap.amount,
+                swap.amount.to_string(),
                 Some(format!("Complete cross-chain swap {}", swap_id)),
             );
 

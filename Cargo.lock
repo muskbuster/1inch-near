@@ -529,15 +529,34 @@ dependencies = [
 ]
 
 [[package]]
-name = "cross-chain-escrow"
+name = "cross-chain-bridge"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "borsh",
  "hex",
  "near-contract-standards",
  "near-gas",
  "near-sdk",
  "near-workspaces",
+ "serde",
+ "serde_json",
+ "sha2",
+ "tokio",
+]
+
+[[package]]
+name = "cross-chain-escrow"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "borsh",
+ "hex",
+ "near-contract-standards",
+ "near-gas",
+ "near-sdk",
+ "near-workspaces",
+ "serde",
  "serde_json",
  "sha2",
  "tokio",
@@ -833,6 +852,23 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "75030f3c4f45dafd7586dd6780965a8c7e8e285a5ecb86713e63a79c5b2766f3"
 dependencies = [
  "cfg-if 1.0.0",
+]
+
+[[package]]
+name = "enhanced-resolver"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "borsh",
+ "hex",
+ "near-contract-standards",
+ "near-gas",
+ "near-sdk",
+ "near-workspaces",
+ "serde",
+ "serde_json",
+ "sha2",
+ "tokio",
 ]
 
 [[package]]

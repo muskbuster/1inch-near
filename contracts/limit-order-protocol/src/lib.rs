@@ -239,5 +239,3 @@ impl LimitOrderProtocol {
         format!("order_{:x}", hasher.finalize())
     }
 } 
-} 
-} 

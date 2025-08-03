@@ -19,6 +19,7 @@ pub struct EscrowCreated {
 #[serde(crate = "near_sdk::serde")]
 pub struct EscrowFunded {
     pub escrow_id: String,
+    pub taker: AccountId,
     pub secret_hash: String,
 }
 
@@ -34,8 +35,16 @@ pub struct EscrowWithdrawn {
 #[serde(crate = "near_sdk::serde")]
 pub struct EscrowCancelled {
     pub escrow_id: String,
-    pub canceller: AccountId,
+    pub taker: AccountId,
 }
+
+#[derive(Serialize, Deserialize)]
+#[serde(crate = "near_sdk::serde")]
+pub struct ContractPaused {}
+
+#[derive(Serialize, Deserialize)]
+#[serde(crate = "near_sdk::serde")]
+pub struct ContractUnpaused {}
 
 pub trait Event {
     fn emit(&self);
@@ -60,6 +69,18 @@ impl Event for EscrowWithdrawn {
 }
 
 impl Event for EscrowCancelled {
+    fn emit(&self) {
+        near_sdk::env::log_str(&format!("EVENT_JSON:{}", serde_json::to_string(self).unwrap()));
+    }
+}
+
+impl Event for ContractPaused {
+    fn emit(&self) {
+        near_sdk::env::log_str(&format!("EVENT_JSON:{}", serde_json::to_string(self).unwrap()));
+    }
+}
+
+impl Event for ContractUnpaused {
     fn emit(&self) {
         near_sdk::env::log_str(&format!("EVENT_JSON:{}", serde_json::to_string(self).unwrap()));
     }

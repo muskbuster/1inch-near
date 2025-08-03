@@ -107,7 +107,7 @@ impl EnhancedResolver {
         self.evm_to_evm_swaps.insert(swap_id.clone(), swap.clone());
 
         // Execute NEAR Intents for cross-chain coordination
-        let intents_promise = ext_intents::ext(self.intents_vault_id.clone())
+        let _intents_promise = ext_intents::ext(self.intents_vault_id.clone())
             .with_attached_deposit(NearToken::from_yoctonear(1))
             .with_static_gas(GAS_FOR_INTENTS_CALL)
             .execute_intent(
@@ -177,7 +177,7 @@ impl EnhancedResolver {
         self.near_intent_swaps.insert(swap_id.clone(), swap.clone());
 
         // Execute NEAR Intents
-        let intents_promise = ext_intents::ext(self.intents_vault_id.clone())
+        let _intents_promise = ext_intents::ext(self.intents_vault_id.clone())
             .with_attached_deposit(NearToken::from_yoctonear(1))
             .with_static_gas(GAS_FOR_INTENTS_CALL)
             .execute_intent(
@@ -370,7 +370,7 @@ impl EnhancedResolver {
     /// Verify EVM swap completion (integrates with 1inch's verification)
     fn verify_evm_swap_completion(
         &self,
-        swap: &EvmToEvmSwap,
+        _swap: &EvmToEvmSwap,
         evm_tx_hash: &str,
         proof_data: &str,
     ) -> bool {
